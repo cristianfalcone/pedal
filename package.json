@@ -8,7 +8,7 @@
     "scripts": {
         "dev": "rollup -cw",
         "build": "rollup -c",
-        "start": "node dist/server.js"
+        "start": "node dist/server/server.js"
     },
     "dependencies": {
         "@bikeshaving/crank": "^0.1.1",

@@ -9,8 +9,8 @@
             "request": "launch",
             "name": "Launch Server",
             "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/build/server.js",
-            "outFiles": ["${workspaceFolder}/build/**/*.js"]
+            "program": "${workspaceFolder}/dist/server/server.js",
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"]
         }
     ]
 }
