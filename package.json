@@ -1,0 +1,26 @@
+{
+    "author": {
+        "name": "Cristian Falcone",
+        "email": "cristianfalcone@gmail.com",
+        "url": "http://cristianfalcone.com"
+    },
+    "license": "MIT",
+    "scripts": {
+        "dev": "rollup -cw",
+        "build": "rollup -c",
+        "start": "node dist/server.js"
+    },
+    "dependencies": {
+        "@bikeshaving/crank": "^0.1.1",
+        "@rollup/plugin-commonjs": "^11.1.0",
+        "@rollup/plugin-inject": "^4.0.1",
+        "@rollup/plugin-node-resolve": "^7.1.3",
+        "@rollup/plugin-sucrase": "^3.0.0",
+        "@types/node": "^13.13.4",
+        "navaid": "^1.1.1",
+        "polka": "^0.5.2",
+        "rollup": "^2.7.2",
+        "sirv": "^0.4.2",
+        "sucrase": "^3.13.0"
+    }
+}
