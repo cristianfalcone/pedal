@@ -1,5 +1,6 @@
 export default [
-    ['/', () => import('./routes/home').then((module) => module.default)],
-    ['/about', () => import('./routes/about').then((module) => module.default)],
-    ['/users/:id', () => import('./routes/user').then((module) => module.default)],
+    ['/', () => import('./routes/home')],
+    ['/about', () => import('./routes/about')],
+    ['/blog', () => import('./routes/blog')],
+    ['/blog/:id', () => import('./routes/article')],
 ];

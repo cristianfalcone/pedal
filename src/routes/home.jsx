@@ -1,7 +1,5 @@
 export default function () {
     return (
-        <div>
-            Home <a href="/about">About</a>
-        </div>
+        <h1>Great success!</h1>
     );
 }

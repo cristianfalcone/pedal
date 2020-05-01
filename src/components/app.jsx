@@ -1,5 +1,5 @@
-export default function ({ isServer, isClient, children }) {
-    // TODO setup state manegement here. Maybe: https://github.com/mostjs/core
-    console.log('Context: ', 'isServer ', isServer, ' - isCLient ', isClient);
-    return children;
+import Layout from '../layouts/default';
+
+export default function ({ children }) {
+    return <Layout>{children}</Layout>;
 }
