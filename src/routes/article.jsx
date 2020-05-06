@@ -17,7 +17,7 @@ async function Article({ id }) {
 }
 
 export default async function* ({ id }) {
-    if (this.isClient) yield <LoadingIndicator />;
+    if (this.$isClient) yield <LoadingIndicator />;
     for await (const _ of this) {
         yield <Article id={id} />;
     }

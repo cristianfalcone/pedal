@@ -18,7 +18,7 @@ routes.forEach(([route, module]) =>
 
         const { default: Route } = await module();
 
-        await renderer.render(
+        renderer.render(
             <App>
                 <Route {...params} />
             </App>,
@@ -27,5 +27,4 @@ routes.forEach(([route, module]) =>
     })
 );
 
-router.on('/noop', () => {});
-router.listen('/noop');
+router.listen();
