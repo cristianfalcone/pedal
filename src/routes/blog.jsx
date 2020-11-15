@@ -19,7 +19,7 @@ async function Blog() {
 
 export default async function* () {
     for await ({} of this) {
-        if (this.$isClient) yield <LoadingIndicator />;
-        yield <Blog />;
+        if (this.$isClient) yield (<LoadingIndicator />);
+        yield (<Blog />);
     }
 }
