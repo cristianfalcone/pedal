@@ -4,6 +4,19 @@ let width, height;
 let size = 42;
 let text = 'edit me';
 
+const observeDivSize = (ctx) => {
+    const ro = new ResizeObserver(([entry]) => {
+        const { offsetWidth, offsetHeight } = entry.target;
+        if (width !== offsetWidth || height !== offsetHeight) {
+            width = offsetWidth;
+            height = offsetHeight;
+            ctx.refresh();
+        }
+    });
+    ctx.schedule((el) => ro.observe(el[4])); // [input, br, input, p, div][4]
+    ctx.cleanup(() => ro.disconnect());
+};
+
 export default function* () {
     const onSize = (e) => {
         size = e.target.value;
@@ -16,16 +29,7 @@ export default function* () {
     };
 
     if (this.$isClient) {
-        const ro = new ResizeObserver(([entry]) => {
-            const { offsetWidth, offsetHeight } = entry.target;
-            if (width !== offsetWidth || height !== offsetHeight) {
-                width = offsetWidth;
-                height = offsetHeight;
-                this.refresh();
-            }
-        });
-        this.schedule((el) => ro.observe(el[4]));
-        this.cleanup(() => ro.disconnect());
+        observeDivSize(this);
     }
 
     while (true) {

@@ -5,6 +5,7 @@ async function LoadingIndicator() {
 async function Blog() {
     const res = await this.$fetch('https://jsonplaceholder.typicode.com/posts');
     const posts = await res.json();
+
     return (
         <ul>
             {posts.map((post) => (
@@ -17,7 +18,7 @@ async function Blog() {
 }
 
 export default async function* () {
-    for await (const _ of this) {
+    for await ({} of this) {
         if (this.$isClient) yield <LoadingIndicator />;
         yield <Blog />;
     }

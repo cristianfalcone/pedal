@@ -1,14 +1,14 @@
+const links = [
+    ['/', 'Home', true],
+    ['/about', 'About', false],
+    ['/blog', 'Blog', false],
+];
+
 export default function* () {
     const isActive = (path, exact) => {
         let active = this.$route || '/';
         return exact ? active === path : active.startsWith(path);
     };
-
-    const links = [
-        ['/', 'Home', true],
-        ['/about', 'About', false],
-        ['/blog', 'Blog', false],
-    ];
 
     while (true) {
         yield (
