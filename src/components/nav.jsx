@@ -1,30 +1,24 @@
-function Link({ to, isActive, children }) {
-    return (
-        <a class={`block p-2 ${isActive ? 'bg-gray-700 text-white' : ''}`} href={to}>
-            {children}
-        </a>
-    );
-}
-
 export default function* () {
-    let active;
-    const isActive = (str, exact) => (exact ? active === str : active.startsWith(str));
+    const isActive = (path, exact) => {
+        let active = this.$route || '/';
+        return exact ? active === path : active.startsWith(path);
+    };
+
     const links = [
         ['/', 'Home', true],
         ['/about', 'About', false],
         ['/blog', 'Blog', false],
     ];
 
-    for (const _ of this) {
-        active = this.$route || '/';
+    while (true) {
         yield (
             <nav class="px-2">
                 <ul class="flex">
-                    {links.map(([to, label, exact]) => (
+                    {links.map(([path, label, exact]) => (
                         <li>
-                            <Link to={to} isActive={isActive(to, exact)}>
+                            <a class={`block p-2 ${isActive(path, exact) ? 'bg-gray-700 text-white' : ''}`} href={path}>
                                 {label}
-                            </Link>
+                            </a>
                         </li>
                     ))}
                 </ul>
