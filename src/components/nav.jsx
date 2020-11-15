@@ -8,28 +8,25 @@ function Link({ to, isActive, children }) {
 
 export default function* () {
     let active;
-    const isActive = (str) => active === str;
+    const isActive = (str, exact) => (exact ? active === str : active.startsWith(str));
+    const links = [
+        ['/', 'Home', true],
+        ['/about', 'About', false],
+        ['/blog', 'Blog', false],
+    ];
 
     for (const _ of this) {
-        active = this.$route.split('/')[1] || 'home';
+        active = this.$route || '/';
         yield (
             <nav class="px-2">
                 <ul class="flex">
-                    <li>
-                        <Link to="/" isActive={isActive('home')}>
-                            home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/about" isActive={isActive('about')}>
-                            about
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/blog" isActive={isActive('blog')}>
-                            blog
-                        </Link>
-                    </li>
+                    {links.map(([to, label, exact]) => (
+                        <li>
+                            <Link to={to} isActive={isActive(to, exact)}>
+                                {label}
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </nav>
         );

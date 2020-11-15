@@ -9,11 +9,11 @@ import routes from './routes';
 
 const { PORT = 3000 } = process.env;
 const router = polka();
-const serve = sirv('dist/client');
+const serve = sirv('dist/client', {dev: process.env.NODE_ENV !== 'production'});
 
 Context.prototype.$isServer = true;
 Context.prototype.$router = router;
-Context.prototype.$fetch = fetch.bind(Context.prototype);
+Context.prototype.$fetch = fetch;
 
 routes.forEach(([route, module]) =>
     router.get(route, async (req, res) => {
@@ -34,7 +34,7 @@ routes.forEach(([route, module]) =>
                 </Document>
             ));
 
-        res.finished || res.end(document);
+        res.writableEnded || res.end(document);
     })
 );
 
