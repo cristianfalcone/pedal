@@ -1,6 +1,6 @@
 import { Raw, Fragment } from '@bikeshaving/crank';
 
-export default async function* Article({ id }) {
+export default async function* ({ id }) {
     if (this.$isClient) yield (<div>Fetching article...</div>);
 
     let post;

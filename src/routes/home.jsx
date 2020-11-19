@@ -5,15 +5,19 @@ let size = 42;
 let text = 'edit me';
 
 const observeDivSize = (ctx) => {
-    const ro = new ResizeObserver(([entry]) => {
-        const { offsetWidth, offsetHeight } = entry.target;
+    let div;
+    const ro = new ResizeObserver(() => {
+        const { offsetWidth, offsetHeight } = div;
         if (width !== offsetWidth || height !== offsetHeight) {
             width = offsetWidth;
             height = offsetHeight;
             ctx.refresh();
         }
     });
-    ctx.schedule((el) => ro.observe(el[4])); // [input, br, input, p, div][4]
+    ctx.schedule((value) => { // better in a "setup" method?
+        div = value[4]; // [input, br, input, p, div][4]
+        ro.observe(div);
+    });
     ctx.cleanup(() => ro.disconnect());
 };
 
@@ -37,10 +41,10 @@ export default function* () {
             <Fragment>
                 <input type="range" value={size} oninput={onSize} />
                 <br />
-                <input value={text} oninput={onText} class="form-input rounded-md shadow-sm" />
+                <input value={text} oninput={onText} class="form-input rounded-md shadow-sm mt-4" />
 
-                <p class="text-sm text-gray-500 font-medium">
-                    size: {width}px x {height}px
+                <p class="text-sm text-gray-500 font-medium mt-4">
+                    div size: {width}px x {height}px
                 </p>
 
                 <div class="inline-block text-gray-500 font-medium">
