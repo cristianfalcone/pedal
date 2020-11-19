@@ -16,7 +16,7 @@ for (const meta of document.head.querySelectorAll('meta[name="ssr"]') || []) {
     if (id) $data[id] = JSON.parse(atob(content || '') || 'null');
 }
 
-routes.forEach(([$route, module]) =>
+for (const [$route, module] of routes) {
     $router.on($route, async ($params) => {
         let $isSSR;
         if (Object.keys(root.dataset).includes('ssr')) {
@@ -29,9 +29,9 @@ routes.forEach(([$route, module]) =>
         Object.assign(Context.prototype, {
             $isClient,
             $router,
-            $fetch,
             $route,
             $params,
+            $fetch,
             $isSSR,
             $data,
         });
@@ -44,7 +44,7 @@ routes.forEach(([$route, module]) =>
             </App>,
             root
         );
-    })
-);
+    });
+}
 
 $router.listen();

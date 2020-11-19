@@ -13,18 +13,18 @@ const $router = polka();
 const $fetch = fetch;
 const $bus = new EventEmitter();
 
-routes.forEach(([route, module]) =>
-    $router.get(route, async ($req, $res) => {
-
+for (const [$route, module] of routes) {
+    $router.get($route, async ($req, $res) => {
+        const $params = $req.params;
         Object.assign(Context.prototype, {
             $isServer,
-            $router,
-            $fetch,
-            $bus,
             $req,
             $res,
-            $route: route,
-            $params: $req.params,
+            $router,
+            $route,
+            $params,
+            $fetch,
+            $bus,
         });
 
         const { default: Route } = await module();
@@ -34,14 +34,14 @@ routes.forEach(([route, module]) =>
             (await renderer.render(
                 <Document>
                     <App>
-                        <Route {...$req.params} />
+                        <Route {...$params} />
                     </App>
                 </Document>
             ));
 
         $res.writableEnded || $res.end(document);
-    })
-);
+    });
+}
 
 const { PORT = 3000 } = process.env;
 const serve = sirv('dist/client', { dev: process.env.NODE_ENV !== 'production' });
