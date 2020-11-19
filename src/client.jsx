@@ -9,8 +9,10 @@ const root = document.getElementById('root');
 const $isClient = true;
 const $router = navaid();
 const $fetch = window.fetch.bind(window);
-const $data = {};
 
+// TODO: with hydration rendering, I don't need the following
+// in order to read server rendering-time data.
+const $data = {};
 for (const meta of document.head.querySelectorAll('meta[name="ssr"]') || []) {
     const { id, content } = meta.dataset;
     if (id) $data[id] = JSON.parse(atob(content || '') || 'null');

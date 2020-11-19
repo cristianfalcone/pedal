@@ -1,6 +1,8 @@
 export default async function* ({ children }) {
     const data = [];
 
+    // TODO: with hydration rendering, I don't need the following
+    // in order to save server rendering-time data.
     if (this.$isServer) {
         this.$bus.on('data', (id, content) => {
             data.push({ id, content: Buffer.from(JSON.stringify(content)).toString('base64')});
