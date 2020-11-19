@@ -1,24 +1,26 @@
-import { Raw } from '@bikeshaving/crank';
-import { Fragment } from '@bikeshaving/crank';
+import { Raw, Fragment } from '@bikeshaving/crank';
 
-async function LoadingIndicator() {
-    return <div>Fetching article...</div>;
-}
+export default async function* Article({ id }) {
+    if (this.$isClient) yield (<div>Fetching article...</div>);
 
-async function Article({ id }) {
-    const res = await this.$fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    const post = await res.json();
+    let post;
+    const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
+
+    if (this.$isSSR) {
+        post = this.$data[url] || [];
+    } else {
+        const res = await this.$fetch(url);
+        post = await res.json();
+
+        if (this.$isServer) {
+            this.$bus.emit('data', url, post);
+        }
+    }
+
     return (
         <Fragment>
             <h1>{post.title}</h1>
             <Raw value={post.body} />
         </Fragment>
     );
-}
-
-export default async function* ({ id }) {
-    for await ({} of this) {
-        if (this.$isClient) yield <LoadingIndicator />;
-        yield <Article id={id} />;
-    }
 }

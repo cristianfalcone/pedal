@@ -1,10 +1,19 @@
-async function LoadingIndicator() {
-    return <div>Fetching posts...</div>;
-}
+export default async function* () {
+    if (this.$isClient) yield (<div>Fetching posts...</div>);
 
-async function Blog() {
-    const res = await this.$fetch('https://jsonplaceholder.typicode.com/posts');
-    const posts = await res.json();
+    let posts;
+    const url = 'https://jsonplaceholder.typicode.com/posts';
+
+    if (this.$isSSR) {
+        posts = this.$data[url] || [];
+    } else {
+        const res = await this.$fetch(url);
+        posts = await res.json();
+
+        if (this.$isServer) {
+            this.$bus.emit('data', url, posts);
+        }
+    }
 
     return (
         <ul>
@@ -15,11 +24,4 @@ async function Blog() {
             ))}
         </ul>
     );
-}
-
-export default async function* () {
-    for await ({} of this) {
-        if (this.$isClient) yield (<LoadingIndicator />);
-        yield (<Blog />);
-    }
 }
